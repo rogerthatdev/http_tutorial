@@ -77,10 +77,10 @@ def server_socket(host, port):
 def parse_request(sock):
     data = sock.recv(4096)
     if not data:
-        print "Bad request: no data"
+        print("Bad request: no data")
         return ''
     line = data[0:data.find("\r")]
-    print line
+    print(line)
     #print headers
     #headers = data[0:data.find("\r\n\r\n")]
     method, uri, protocol = line.split()
@@ -114,7 +114,7 @@ def get_content(uri):
                 return (301, uri + '/')
         else:
             return (404, uri)
-    except IOError, e:
+    except (IOError, e):
         return (404, e)
 
 
@@ -130,7 +130,7 @@ def send_response(sock, content):
 
 if __name__ == '__main__':
     server = server_socket(host, int(port))
-    print 'starting %s on %s...' % (host, port)
+    print('starting %s on %s...' % (host, port))
     try:
         while True:
             sock, client_address = server.accept()
@@ -140,5 +140,5 @@ if __name__ == '__main__':
                 send_response(sock, content)
             sock.close()
     except KeyboardInterrupt:
-        print 'shutting down...'
+        print('shutting down...')
     server.close()
