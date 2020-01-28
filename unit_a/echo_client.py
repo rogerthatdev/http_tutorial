@@ -6,8 +6,8 @@ size = 1024
 s = socket.socket(socket.AF_INET, 
                   socket.SOCK_STREAM) 
 s.connect((host,port)) 
-s.send('Hello, world') 
+s.send('Hello, world'.encode('utf-8')) 
 data = s.recv(size) 
 s.close() 
-print 'Received:', data
+print('Received:', data.decode('utf-8'))
 
