@@ -80,7 +80,7 @@ def parse_request(sock):
         print("Bad request: no data")
         return ''
     line = data[0:data.find("\r".encode('utf-8'))]
-    print(line)
+    print(line.decode('utf-8'))
     #print headers
     #headers = data[0:data.find("\r\n\r\n")]
     method, uri, protocol = line.split()
