@@ -79,10 +79,8 @@ def parse_request(sock):
     if not data:
         print("Bad request: no data")
         return ''
-    line = data[0:data.find("\r")]
-    print(line)
-    #print headers
-    #headers = data[0:data.find("\r\n\r\n")]
+    line = data[0:data.find("\r".encode('utf-8'))]
+    print(line.decode('utf-8'))
     method, uri, protocol = line.split()
     return uri
 
@@ -103,6 +101,7 @@ def get_file(path):
 
 
 def get_content(uri):
+    uri = uri.decode('utf-8')
     try:
         path = '.' + uri
         if os.path.isfile(path):
@@ -114,8 +113,8 @@ def get_content(uri):
                 return (301, uri + '/')
         else:
             return (404, uri)
-    except (IOError, e):
-        return (404, e)
+    except IOError as e:
+        return 404, e
 
 
 def get_mime(uri):
@@ -124,7 +123,7 @@ def get_mime(uri):
 
 def send_response(sock, content):
     template = response_headers[content[0]]
-    data = template % content[1:]
+    data = (template % content[1:]).encode('utf-8')
     sock.sendall(data)
 
 
